@@ -1,0 +1,73 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/asu/CSE312 - Electronic Design Automation/Project/project files
+T_opt
+!s110 1732194822
+V<BaUZ^HOkPTSZdk@5fUIS0
+Z1 04 29 4 work tb_washing_machine_controller fast 0
+=1-34735aeb274e-673f3206-f-3aac
+o-quiet -auto_acc_if_foreign -work work +acc
+Z2 tCvgOpt 0
+n@_opt
+Z3 OL;O;10.6c;65
+R0
+T_opt1
+!s110 1732196224
+V=7SOFiOUGRG4Zf]aF8]UX0
+R1
+=1-34735aeb274e-673f377f-3b9-b14
+o-quiet -auto_acc_if_foreign -work work
+R2
+n@_opt1
+R3
+R0
+vtb_washing_machine_controller
+!s110 1732196847
+!i10b 1
+!s100 <h65gLZHPVHHnJk=F_C0h2
+I>bM;>NYkOYI6Ll>^SC6VE2
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z5 dD:/asu/CSE312 - Electronic Design Automation/Project/project files/Project2
+w1732196665
+8D:\asu\CSE312 - Electronic Design Automation\Project\project files\Project2\washing_machine_tb.v
+FD:\asu\CSE312 - Electronic Design Automation\Project\project files\Project2\washing_machine_tb.v
+L0 3
+Z6 OL;L;10.6c;65
+r1
+!s85 0
+31
+!s108 1732196847.000000
+!s107 D:\asu\CSE312 - Electronic Design Automation\Project\project files\Project2\washing_machine_tb.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:\asu\CSE312 - Electronic Design Automation\Project\project files\Project2\washing_machine_tb.v|
+!i113 0
+o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R2
+vwashing_machine_controller
+!s110 1732196222
+!i10b 1
+!s100 MKXhJ^:_j>0i;YGjX9[[z2
+IE:R^j6of6Hge0TIGBOa5;3
+R4
+R5
+w1730592570
+8washing_machine_controller.v
+Fwashing_machine_controller.v
+L0 1
+R6
+r1
+!s85 0
+31
+!s108 1732196222.000000
+!s107 washing_machine_tb.v|washing_machine_controller.v|
+!s90 -reportprogress|300|washing_machine_controller.v|washing_machine_tb.v|+cover|-covercells|
+!i113 0
+!s102 +cover -covercells
+o+cover -covercells -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R2

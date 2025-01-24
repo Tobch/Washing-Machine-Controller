@@ -1,0 +1,760 @@
+QuestaSim-64 vcover 10.6c Coverage Utility 2017.07 Jul 26 2017
+Start time: 15:37:08 on Nov 21,2024
+vcover report machine.ucdb -details -all 
+Coverage Report by file with details
+
+=================================================================================
+=== File: washing_machine_controller.v
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                           43        14        29      32.5
+
+================================Statement Details================================
+
+Statement Coverage for file washing_machine_controller.v --
+
+    1                                                module washing_machine_controller(
+    2                                                    input clk,
+    3                                                    input reset,
+    4                                                    input power_button,
+    5                                                    input start_button,
+    6                                                    input [1:0] cycle_select, // 00: Quick Wash, 01: Normal, 10: Heavy, 11: Delicate
+    7                                                    input [1:0] water_level_select, // 00: Low, 01: Medium, 10: High
+    8                                                    input [1:0] temp_select, // 00: Cold, 01: Warm, 10: Hot
+    9                                                    input [1:0] spin_speed_select, // 00: Low, 01: Medium, 10: High
+    10                                                   input lid_closed,
+    11                                                   input water_full,
+    12                                                   input load_balanced,
+    13                                                   input delay_start, // 1: delay start is set
+    14                                                   output reg motor_on,
+    15                                                   output reg water_pump_on,
+    16                                                   output reg alarm,
+    17                                                   output reg door_locked,
+    18                                                   output reg power_led,
+    19                                                   output reg cycle_led, // LED or display for cycle
+    20                                                   output reg [7:0] timer, // 8-bit timer for cycle countdown
+    21                                                   output reg end_of_cycle_alarm
+    22                                               );
+    23                                                   // State declarations
+    24                                                   reg [3:0] current_state, next_state;
+    25                                               
+    26                                                   // State encoding
+    27                                                   parameter POWER_OFF = 4'b0000;
+    28                                                   parameter IDLE = 4'b0001;
+    29                                                   parameter FILLING = 4'b0010;
+    30                                                   parameter WASHING = 4'b0011;
+    31                                                   parameter RINSING = 4'b0100;
+    32                                                   parameter SPINNING = 4'b0101;
+    33                                                   parameter END_CYCLE = 4'b0110;
+    34                                                   parameter ERROR = 4'b0111;
+    35                                               
+    36                                                   // Sequential logic: State transition
+    37              1                          2         always @(posedge clk or posedge reset) begin
+    38                                                       if (reset) begin
+    39              1                          2                 current_state <= POWER_OFF;
+    40              1                          2                 timer <= 8'd0;
+    41                                                       end else begin
+    42              1                    ***0***                 current_state <= next_state;
+    43                                                           // Countdown timer logic
+    44              1                    ***0***                 if (timer > 0) timer <= timer - 1;
+    45                                                       end
+    46                                                   end
+    47                                               
+    48                                                   // Combinational logic: Next state and outputs
+    49              1                          2         always @(*) begin
+    50                                                       // Default output values
+    51              1                          2             motor_on = 0;
+    52              1                          2             water_pump_on = 0;
+    53              1                          2             alarm = 0;
+    54              1                          2             door_locked = 0;
+    55              1                          2             power_led = 0;
+    56              1                          2             cycle_led = 0;
+    57              1                          2             end_of_cycle_alarm = 0;
+    58              1                          2             next_state = current_state; // Default to hold state
+    59                                               
+    60                                                       case (current_state)
+    61                                                           POWER_OFF: begin
+    62              1                          1                     power_led = 0;
+    63                                                               if (power_button) begin
+    64              1                    ***0***                         next_state = IDLE;
+    65                                                               end
+    66                                                           end
+    67                                                           
+    68                                                           IDLE: begin
+    69              1                    ***0***                     power_led = 1;
+    70                                                               if (start_button) begin
+    71                                                                   if (lid_closed && load_balanced) begin
+    72              1                    ***0***                             door_locked = 1;
+    73                                                                       if (delay_start) begin
+    74                                                                           // Delay logic (simple implementation)
+    75              1                    ***0***                                 next_state = IDLE; // Remain in IDLE during delay
+    76                                                                       end else begin
+    77              1                    ***0***                                 next_state = FILLING;
+    78                                                                       end
+    79                                                                   end else begin
+    80              1                    ***0***                             alarm = 1; // Lid not closed or unbalanced load
+    81              1                    ***0***                             next_state = ERROR;
+    82                                                                   end
+    83                                                               end
+    84                                                           end
+    85                                                           
+    86                                                           FILLING: begin
+    87              1                    ***0***                     water_pump_on = 1;
+    88                                                               if (water_full) begin
+    89              1                    ***0***                         next_state = WASHING; // Move to washing when water is full
+    90                                                               end
+    91                                                           end
+    92                                                           
+    93                                                           WASHING: begin
+    94              1                    ***0***                     motor_on = 1;
+    95                                                               case (cycle_select)
+    96              1                    ***0***                         2'b00: timer = 8'd5; // Quick wash
+    97              1                    ***0***                         2'b01: timer = 8'd10; // Normal
+    98              1                    ***0***                         2'b10: timer = 8'd15; // Heavy
+    99              1                    ***0***                         2'b11: timer = 8'd8; // Delicate
+    100                                                              endcase
+    101             1                    ***0***                     if (timer == 0) next_state = RINSING; // Move to rinsing when timer expires
+    102                                                          end
+    103                                                          
+    104                                                          RINSING: begin
+    105             1                    ***0***                     motor_on = 1;
+    106             1                    ***0***                     next_state = SPINNING; // Move to spinning after rinsing
+    107                                                          end
+    108                                                          
+    109                                                          SPINNING: begin
+    110             1                    ***0***                     motor_on = 1;
+    111                                                              case (spin_speed_select)
+    112             1                    ***0***                         2'b00: timer = 8'd3; // Low
+    113             1                    ***0***                         2'b01: timer = 8'd5; // Medium
+    114             1                    ***0***                         2'b10: timer = 8'd7; // High
+    115                                                              endcase
+    116             1                    ***0***                     if (timer == 0) next_state = END_CYCLE; // Move to end cycle when timer expires
+    117                                                          end
+    118                                              
+    119                                                          END_CYCLE: begin
+    120             1                    ***0***                     door_locked = 0;
+    121             1                    ***0***                     end_of_cycle_alarm = 1; // Signal cycle completion
+    122             1                    ***0***                     next_state = IDLE; // Return to idle after end cycle
+    123                                                          end
+    124                                              
+    125                                                          ERROR: begin
+    126             1                    ***0***                     alarm = 1; // Signal error
+    127             1                    ***0***                     next_state = POWER_OFF; // Return to power off state
+    128                                                          end
+    129                                                          
+    130             1                          1                 default: next_state = POWER_OFF; // Default case to handle undefined states
+    131                                                      endcase
+    132                                                  end
+    133                                              endmodule
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                        36         4        32      11.1
+
+================================Branch Details================================
+
+Branch Coverage for file washing_machine_controller.v --
+
+------------------------------------IF Branch------------------------------------
+    38                                         2     Count coming in to IF
+    38              1                          2             if (reset) begin
+    41              1                    ***0***             end else begin
+Branch totals: 1 hit of 2 branches = 50.0%
+
+------------------------------------IF Branch------------------------------------
+    44                                   ***0***     Count coming in to IF
+    44              1                    ***0***                 if (timer > 0) timer <= timer - 1;
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------CASE Branch------------------------------------
+    60                                         2     Count coming in to CASE
+    61              1                          1                 POWER_OFF: begin
+    68              1                    ***0***                 IDLE: begin
+    86              1                    ***0***                 FILLING: begin
+    93              1                    ***0***                 WASHING: begin
+    104             1                    ***0***                 RINSING: begin
+    109             1                    ***0***                 SPINNING: begin
+    119             1                    ***0***                 END_CYCLE: begin
+    125             1                    ***0***                 ERROR: begin
+    130             1                          1                 default: next_state = POWER_OFF; // Default case to handle undefined states
+Branch totals: 2 hits of 9 branches = 22.2%
+
+------------------------------------IF Branch------------------------------------
+    63                                         1     Count coming in to IF
+    63              1                    ***0***                     if (power_button) begin
+                                               1     All False Count
+Branch totals: 1 hit of 2 branches = 50.0%
+
+------------------------------------IF Branch------------------------------------
+    70                                   ***0***     Count coming in to IF
+    70              1                    ***0***                     if (start_button) begin
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    71                                   ***0***     Count coming in to IF
+    71              1                    ***0***                         if (lid_closed && load_balanced) begin
+    79              1                    ***0***                         end else begin
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    73                                   ***0***     Count coming in to IF
+    73              1                    ***0***                             if (delay_start) begin
+    76              1                    ***0***                             end else begin
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    88                                   ***0***     Count coming in to IF
+    88              1                    ***0***                     if (water_full) begin
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------CASE Branch------------------------------------
+    95                                   ***0***     Count coming in to CASE
+    96              1                    ***0***                         2'b00: timer = 8'd5; // Quick wash
+    97              1                    ***0***                         2'b01: timer = 8'd10; // Normal
+    98              1                    ***0***                         2'b10: timer = 8'd15; // Heavy
+    99              1                    ***0***                         2'b11: timer = 8'd8; // Delicate
+                                         ***0***     All False Count
+Branch totals: 0 hits of 5 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    101                                  ***0***     Count coming in to IF
+    101             1                    ***0***                     if (timer == 0) next_state = RINSING; // Move to rinsing when timer expires
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------CASE Branch------------------------------------
+    111                                  ***0***     Count coming in to CASE
+    112             1                    ***0***                         2'b00: timer = 8'd3; // Low
+    113             1                    ***0***                         2'b01: timer = 8'd5; // Medium
+    114             1                    ***0***                         2'b10: timer = 8'd7; // High
+                                         ***0***     All False Count
+Branch totals: 0 hits of 4 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    116                                  ***0***     Count coming in to IF
+    116             1                    ***0***                     if (timer == 0) next_state = END_CYCLE; // Move to end cycle when timer expires
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              2         0         2       0.0
+
+================================Condition Details================================
+
+Condition Coverage for file washing_machine_controller.v --
+
+----------------Focused Condition View-------------------
+Line       71 Item    1  (lid_closed && load_balanced)
+Condition totals: 0 of 2 input terms covered = 0.0%
+
+     Input Term   Covered  Reason for no coverage   Hint
+    -----------  --------  -----------------------  --------------
+     lid_closed         N  No hits                  Hit '_0' and '_1'
+  load_balanced         N  No hits                  Hit '_0' and '_1'
+
+     Rows:       Hits  FEC Target            Non-masking condition(s)      
+ ---------  ---------  --------------------  -------------------------     
+  Row   1:    ***0***  lid_closed_0          -                             
+  Row   2:    ***0***  lid_closed_1          load_balanced                 
+  Row   3:    ***0***  load_balanced_0       lid_closed                    
+  Row   4:    ***0***  load_balanced_1       lid_closed                    
+
+
+Expression Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Expression Terms             0         0         0     100.0
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                         6.2
+        States                       8         1         7      12.5
+        Transitions                 15         0        15       0.0
+
+================================FSM Details================================
+
+FSM Coverage for file washing_machine_controller.v --
+
+FSM_ID: current_state
+    Current State Object : current_state
+    ----------------------
+    State Value MapInfo :
+    ---------------------
+Line          State Name               Value
+----          ----------               -----
+  61           POWER_OFF                   0
+  68                IDLE                   1
+ 125               ERROR                   7
+  86             FILLING                   2
+  93             WASHING                   3
+ 104             RINSING                   4
+ 109            SPINNING                   5
+ 119           END_CYCLE                   6
+    Covered States :
+    ----------------
+                   State           Hit_count
+                   -----           ---------
+               POWER_OFF                   2
+    Uncovered States :
+    ------------------
+                   State
+                   -----
+                    IDLE
+                   ERROR
+                 FILLING
+                 WASHING
+                 RINSING
+                SPINNING
+               END_CYCLE
+    Uncovered Transitions :
+    -----------------------
+Line            Trans_ID          Transition          
+----            --------          ----------          
+  64                   0          POWER_OFF -> IDLE   
+  81                   1          IDLE -> ERROR       
+  77                   2          IDLE -> FILLING     
+  39                   3          IDLE -> POWER_OFF   
+ 127                   4          ERROR -> POWER_OFF  
+  89                   5          FILLING -> WASHING  
+  39                   6          FILLING -> POWER_OFF
+ 101                   7          WASHING -> RINSING  
+  39                   8          WASHING -> POWER_OFF
+ 106                   9          RINSING -> SPINNING 
+  39                  10          RINSING -> POWER_OFF
+ 116                  11          SPINNING -> END_CYCLE
+  39                  12          SPINNING -> POWER_OFF
+ 122                  13          END_CYCLE -> IDLE   
+  39                  14          END_CYCLE -> POWER_OFF
+
+
+    Summary                     Active      Hits    Misses % Covered
+    -------                     ------      ----    ------ ---------
+        States                       8         1         7      12.5
+        Transitions                 15         0        15       0.0
+Toggle Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Toggle Bins                     78         2        76       2.5
+
+================================Toggle Details================================
+
+Toggle Coverage for File washing_machine_controller.v --
+
+       Line                                   Node      1H->0L      0L->1H  "Coverage"
+--------------------------------------------------------------------------------------
+          2                                    clk           1           1      100.00 
+          3                                  reset           0           0        0.00 
+          4                           power_button           0           0        0.00 
+          5                           start_button           0           0        0.00 
+          6                        cycle_select[1]           0           0        0.00 
+          6                        cycle_select[0]           0           0        0.00 
+          7                  water_level_select[1]           0           0        0.00 
+          7                  water_level_select[0]           0           0        0.00 
+          8                         temp_select[1]           0           0        0.00 
+          8                         temp_select[0]           0           0        0.00 
+          9                   spin_speed_select[1]           0           0        0.00 
+          9                   spin_speed_select[0]           0           0        0.00 
+         10                             lid_closed           0           0        0.00 
+         11                             water_full           0           0        0.00 
+         12                          load_balanced           0           0        0.00 
+         13                            delay_start           0           0        0.00 
+         14                               motor_on           0           0        0.00 
+         15                          water_pump_on           0           0        0.00 
+         16                                  alarm           0           0        0.00 
+         17                            door_locked           0           0        0.00 
+         18                              power_led           0           0        0.00 
+         19                              cycle_led           0           0        0.00 
+         20                               timer[7]           0           0        0.00 
+         20                               timer[6]           0           0        0.00 
+         20                               timer[5]           0           0        0.00 
+         20                               timer[4]           0           0        0.00 
+         20                               timer[3]           0           0        0.00 
+         20                               timer[2]           0           0        0.00 
+         20                               timer[1]           0           0        0.00 
+         20                               timer[0]           0           0        0.00 
+         21                     end_of_cycle_alarm           0           0        0.00 
+         24                          next_state[3]           0           0        0.00 
+         24                          next_state[2]           0           0        0.00 
+         24                          next_state[1]           0           0        0.00 
+         24                          next_state[0]           0           0        0.00 
+         24                       current_state[3]           0           0        0.00 
+         24                       current_state[2]           0           0        0.00 
+         24                       current_state[1]           0           0        0.00 
+         24                       current_state[0]           0           0        0.00 
+
+Total Node Count     =         39 
+Toggled Node Count   =          1 
+Untoggled Node Count =         38 
+
+Toggle Coverage      =        2.5% (2 of 78 bins)
+
+=================================================================================
+=== File: washing_machine_tb.v
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                           67        22        45      32.8
+
+================================Statement Details================================
+
+Statement Coverage for file washing_machine_tb.v --
+NOTE: The modification timestamp for source file 'washing_machine_tb.v' has been altered since compilation.
+
+    1                                                `timescale 1ns / 1ps
+    2                                                
+    3                                                module tb_washing_machine_controller;
+    4                                                
+    5                                                    // Parameters
+    6                                                    reg clk;
+    7                                                    reg reset;
+    8                                                    reg power_button;
+    9                                                    reg start_button;
+    10                                                   reg [1:0] cycle_select;
+    11                                                   reg [1:0] water_level_select;
+    12                                                   reg [1:0] temp_select;
+    13                                                   reg [1:0] spin_speed_select;
+    14                                                   reg lid_closed;
+    15                                                   reg water_full;
+    16                                                   reg load_balanced;
+    17                                                   reg delay_start;
+    18                                               
+    19                                                   // Outputs
+    20                                                   wire motor_on;
+    21                                                   wire water_pump_on;
+    22                                                   wire alarm;
+    23                                                   wire door_locked;
+    24                                                   wire power_led;
+    25                                                   wire cycle_led;
+    26                                                   wire [7:0] timer;
+    27                                                   wire end_of_cycle_alarm;
+    28                                               
+    29                                                   // Instantiate the washing machine controller
+    30                                                   washing_machine_controller uut (
+    31                                                       .clk(clk),
+    32                                                       .reset(reset),
+    33                                                       .power_button(power_button),
+    34                                                       .start_button(start_button),
+    35                                                       .cycle_select(cycle_select),
+    36                                                       .water_level_select(water_level_select),
+    37                                                       .temp_select(temp_select),
+    38                                                       .spin_speed_select(spin_speed_select),
+    39                                                       .lid_closed(lid_closed),
+    40                                                       .water_full(water_full),
+    41                                                       .load_balanced(load_balanced),
+    42                                                       .delay_start(delay_start),
+    43                                                       .motor_on(motor_on),
+    44                                                       .water_pump_on(water_pump_on),
+    45                                                       .alarm(alarm),
+    46                                                       .door_locked(door_locked),
+    47                                                       .power_led(power_led),
+    48                                                       .cycle_led(cycle_led),
+    49                                                       .timer(timer),
+    50                                                       .end_of_cycle_alarm(end_of_cycle_alarm)
+    51                                                   );
+    52                                               
+    53                                                   // Clock generation
+    54                                                   initial begin
+    55              1                          1             clk = 0;
+    56              1                          1             forever #5 clk = ~clk; // 10ns clock period
+    56              2                          3     
+    56              3                          2     
+    57                                                   end
+    58                                               
+    59                                                   // Randomized Test sequence
+    60                                                   initial begin
+    61              1                          1             // Initialize inputs
+    62                                                       reset = 1;
+    63                                                       power_button = 0;
+    64                                                       start_button = 0;
+    65                                                       cycle_select = 2'b01; // Default to Normal Wash
+    66                                                       water_level_select = 2'b01; // Medium
+    67                                                       temp_select = 2'b01; // Warm
+    68              1                          1             spin_speed_select = 2'b01; // Medium
+    69              1                          1             lid_closed = 0;
+    70              1                          1             water_full = 0;
+    71              1                          1             load_balanced = 0;
+    72              1                          1             delay_start = 0;
+    73              1                          1     
+    74              1                          1             // Reset the controller
+    75              1                          1             #10 reset = 0;
+    76              1                          1     
+    77              1                          1             // Power on the washing machine with some random delays
+    78              1                          1             random_power_on();
+    79                                               
+    80                                                       // Randomized cycle start
+    81              1                          1             random_start_button();
+    81              2                    ***0***     
+    82                                               
+    83                                                       // Simulate water filling, and randomize water_full signal
+    84              1                    ***0***             #10 water_full = 1;
+    85                                                       #10 water_full = 0;
+    86              1                    ***0***     
+    86              2                    ***0***     
+    86              3                    ***0***     
+    86              4                    ***0***     
+    87                                                       // Random delays between washing phases
+    88                                                       random_phase_delay();
+    89              1                    ***0***     
+    89              2                    ***0***     
+    90              1                    ***0***             // Randomly change states
+    90              2                    ***0***     
+    91                                                       random_rinse_cycle();
+    92                                               
+    93              1                    ***0***             // Randomly end cycle and check alarm
+    93              2                    ***0***     
+    93              3                    ***0***     
+    93              4                    ***0***     
+    94                                                       random_end_of_cycle();
+    95                                               
+    96              1                    ***0***             // Final state check
+    96              2                    ***0***     
+    96              3                    ***0***     
+    96              4                    ***0***     
+    97                                                       if (end_of_cycle_alarm !== 1) begin
+    98                                                           $display("Test failed: End of cycle alarm not activated.");
+    99              1                    ***0***             end else begin
+    100                                                          $display("Test passed: End of cycle alarm activated.");
+    101                                                      end
+    102             1                    ***0***     
+    103             1                    ***0***             // Finish simulation
+    104             1                    ***0***             $finish;
+    104             2                    ***0***     
+    105                                                  end
+    106                                              
+    107             1                    ***0***         // Random power on function
+    108                                                  task random_power_on;
+    109                                                      begin
+    110                                                          #($random % 50); // Wait for a random time between 0 and 50 ns
+    111             1                    ***0***                 power_button = 1; // Press power button
+    112                                                          #10 power_button = 0;
+    113             1                    ***0***             end
+    114                                                  endtask
+    115                                              
+    116                                                  // Random start button press
+    117             1                    ***0***         task random_start_button;
+    118             1                    ***0***             begin
+    119             1                    ***0***                 #($random % 100); // Random delay before pressing start
+    120             1                    ***0***                 start_button = 1; // Press start button
+    121             1                    ***0***                 #10 start_button = 0;
+    122             1                    ***0***             end
+    123             1                    ***0***         endtask
+    124             1                    ***0***     
+    125             1                    ***0***         // Random delay for washing, rinse, spin, etc.
+    126             1                    ***0***         task random_phase_delay;
+    127             1                    ***0***             begin
+    128                                                          #($random % 50 + 20); // Random delay between 20ns to 70ns for different phases
+    129             1                    ***0***             end
+    130                                                  endtask
+    131                                              
+    132                                                  // Random rinse cycle simulation
+    133             1                    ***0***         task random_rinse_cycle;
+    134                                                      begin
+    135                                                          #($random % 50 + 50); // Random rinse time, between 50ns to 100ns
+    136                                                      end
+    137                                                  endtask
+    138             1                          1     
+    139             1                          1         // Random end of cycle behavior
+    140                                                  task random_end_of_cycle;
+    141                                                      begin
+    142                                                          #($random % 30 + 10); // Random time for spin cycle to end
+    143             1                    ***0***             end
+    144                                                  endtask
+    145                                              
+    146                                                  // Assertions for verification
+    147                                                  initial begin
+    148                                                      // Wait for the simulation to start
+    149                                                      @(posedge clk); // Wait for the first clock edge
+    150             1                    ***0***             forever begin
+    151                                                          // Assert that the motor is on during washing
+    152                                                          if (uut.current_state == uut.WASHING) begin
+    153                                                              if (motor_on !== 1) begin
+    154                                                                  $fatal("Error: Motor should be ON during washing.");
+    155                                                              end
+    156                                                          end
+    157             1                    ***0***     
+    158                                                          // Assert that water pump is on while filling
+    159                                                          if (uut.current_state == uut.FILLING) begin
+    160                                                              if (water_pump_on !== 1) begin
+    161                                                                  $fatal("Error: Water pump should be ON during filling.");
+    162             1                          1                     end
+    162             2                          1     
+    163                                                          end
+    164             1                          1     
+    165                                                          // Assert door is locked when washing
+    166             1                    ***0***                 if (uut.current_state == uut.WASHING) begin
+    167                                                              if (door_locked !== 1) begin
+    168                                                                  $fatal("Error: Door should be locked during washing.");
+    169                                                              end
+    170                                                          end
+    171             1                    ***0***     
+    172                                                          // Assert alarm when lid is open
+    173                                                          lid_closed = 0; // Simulate lid open
+    174                                                          #10;
+    175                                                          if (alarm !== 1) begin
+    176             1                    ***0***                     $fatal("Error: Alarm should be ON when lid is open.");
+    177                                                          end
+    178                                                          lid_closed = 1; // Close lid
+    179                                              
+    180                                                          // Assert end of cycle alarm is triggered at end of washing
+    181                                                          if (uut.current_state == uut.END_CYCLE) begin
+    182                                                              if (end_of_cycle_alarm !== 1) begin
+    183                                                                  $fatal("Error: End of cycle alarm should be activated.");
+    184                                                              end
+    185                                                          end
+    186                                              
+    187                                                          // Wait for the next clock cycle
+    188                                                          @(posedge clk);
+    189                                                      end
+    190                                                  end
+    191                                              
+    192                                              endmodule
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                        20         4        16      20.0
+
+================================Branch Details================================
+
+Branch Coverage for file washing_machine_tb.v --
+NOTE: The modification timestamp for source file 'washing_machine_tb.v' has been altered since compilation.
+
+------------------------------------IF Branch------------------------------------
+    110                                  ***0***     Count coming in to IF
+    110             1                    ***0***                 #($random % 50); // Wait for a random time between 0 and 50 ns
+    112             1                    ***0***                 #10 power_button = 0;
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    141                                        1     Count coming in to IF
+    141             1                    ***0***             begin
+                                               1     All False Count
+Branch totals: 1 hit of 2 branches = 50.0%
+
+------------------------------------IF Branch------------------------------------
+    142                                  ***0***     Count coming in to IF
+    142             1                    ***0***                 #($random % 30 + 10); // Random time for spin cycle to end
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    148                                        1     Count coming in to IF
+    148             1                    ***0***             // Wait for the simulation to start
+                                               1     All False Count
+Branch totals: 1 hit of 2 branches = 50.0%
+
+------------------------------------IF Branch------------------------------------
+    149                                  ***0***     Count coming in to IF
+    149             1                    ***0***             @(posedge clk); // Wait for the first clock edge
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    155                                        1     Count coming in to IF
+    155             1                    ***0***                     end
+                                               1     All False Count
+Branch totals: 1 hit of 2 branches = 50.0%
+
+------------------------------------IF Branch------------------------------------
+    156                                  ***0***     Count coming in to IF
+    156             1                    ***0***                 end
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    163                                        1     Count coming in to IF
+    163             1                          1                 end
+                                         ***0***     All False Count
+Branch totals: 1 hit of 2 branches = 50.0%
+
+------------------------------------IF Branch------------------------------------
+    169                                  ***0***     Count coming in to IF
+    169             1                    ***0***                     end
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+------------------------------------IF Branch------------------------------------
+    170                                  ***0***     Count coming in to IF
+    170             1                    ***0***                 end
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.0%
+
+
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              0         0         0     100.0
+Expression Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Expression Terms             0         0         0     100.0
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                       100.0
+        States                       0         0         0     100.0
+        Transitions                  0         0         0     100.0
+Toggle Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Toggle Bins                     62         2        60       3.2
+
+================================Toggle Details================================
+
+Toggle Coverage for File washing_machine_tb.v --
+
+       Line                                   Node      1H->0L      0L->1H  "Coverage"
+--------------------------------------------------------------------------------------
+          6                                    clk           1           1      100.00 
+          7                                  reset           0           0        0.00 
+          8                           power_button           0           0        0.00 
+          9                           start_button           0           0        0.00 
+         10                        cycle_select[1]           0           0        0.00 
+         10                        cycle_select[0]           0           0        0.00 
+         11                  water_level_select[1]           0           0        0.00 
+         11                  water_level_select[0]           0           0        0.00 
+         12                         temp_select[1]           0           0        0.00 
+         12                         temp_select[0]           0           0        0.00 
+         13                   spin_speed_select[1]           0           0        0.00 
+         13                   spin_speed_select[0]           0           0        0.00 
+         14                             lid_closed           0           0        0.00 
+         15                             water_full           0           0        0.00 
+         16                          load_balanced           0           0        0.00 
+         17                            delay_start           0           0        0.00 
+         20                               motor_on           0           0        0.00 
+         21                          water_pump_on           0           0        0.00 
+         22                                  alarm           0           0        0.00 
+         23                            door_locked           0           0        0.00 
+         24                              power_led           0           0        0.00 
+         25                              cycle_led           0           0        0.00 
+         26                               timer[7]           0           0        0.00 
+         26                               timer[6]           0           0        0.00 
+         26                               timer[5]           0           0        0.00 
+         26                               timer[4]           0           0        0.00 
+         26                               timer[3]           0           0        0.00 
+         26                               timer[2]           0           0        0.00 
+         26                               timer[1]           0           0        0.00 
+         26                               timer[0]           0           0        0.00 
+         27                     end_of_cycle_alarm           0           0        0.00 
+
+Total Node Count     =         31 
+Toggled Node Count   =          1 
+Untoggled Node Count =         30 
+
+Toggle Coverage      =        3.2% (2 of 62 bins)
+
+
+Total Coverage By File (code coverage only, filtered view): 11.2%
+
+End time: 15:37:09 on Nov 21,2024, Elapsed time: 0:00:01
+Errors: 0, Warnings: 0

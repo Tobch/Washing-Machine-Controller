@@ -1,0 +1,28 @@
+var g_data = {
+c3:[{dummy:0}
+,{anchor:'cvg65',cr:'m',items:[{s:'3',x:'FC',z:'(lid_closed && load_balanced)',c:'R',p:'0.00',d:'0',F:'1'}
+,{}
+,{z:'lid_closed',c:'r',r:'No hits',i:'Hit \'_0\' and \'_1\''}
+,{z:'load_balanced',c:'r',r:'No hits',i:'Hit \'_0\' and \'_1\''}
+,{}
+,{n:'1',z:'lid_closed_0',h1:'0',t:'c',c1:'-'}
+,{n:'2',z:'lid_closed_1',h1:'0',t:'c',c1:'load_balanced'}
+,{n:'3',z:'load_balanced_0',h1:'0',t:'c',c1:'lid_closed'}
+,{n:'4',z:'load_balanced_1',h1:'0',t:'c',c1:'lid_closed'}
+]}
+],
+c51:[{dummy:0}
+,{anchor:'cvg65',cr:'m',items:[{s:'3',x:'FC',z:'(lid_closed && load_balanced)',c:'R',p:'0.00',d:'0',F:'1'}
+,{}
+,{z:'lid_closed',c:'r',r:'No hits',i:'Hit \'_0\' and \'_1\''}
+,{z:'load_balanced',c:'r',r:'No hits',i:'Hit \'_0\' and \'_1\''}
+,{}
+,{n:'1',z:'lid_closed_0',h1:'0',t:'c',c1:'-'}
+,{n:'2',z:'lid_closed_1',h1:'0',t:'c',c1:'load_balanced'}
+,{n:'3',z:'load_balanced_0',h1:'0',t:'c',c1:'lid_closed'}
+,{n:'4',z:'load_balanced_1',h1:'0',t:'c',c1:'lid_closed'}
+]}
+],
+dummyEnd:0
+};
+processCondExprData(g_data);

@@ -1,0 +1,15 @@
+{D:/asu/CSE312 - Electronic Design Automation/Project/project files/Project2/washing_machine_controller.v} {1 {vlog -work work -vopt -stats=none {D:/asu/CSE312 - Electronic Design Automation/Project/project files/Project2/washing_machine_controller.v}
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module washing_machine_controller
+
+Top level modules:
+	washing_machine_controller
+
+} {} {}} {D:/asu/CSE312 - Electronic Design Automation/Project/project files/Project2/washing_machine_tb.v} {1 {vlog -work work -vopt -stats=none {D:\asu\CSE312 - Electronic Design Automation\Project\project files\Project2\washing_machine_tb.v}
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module tb_washing_machine_controller
+
+Top level modules:
+	tb_washing_machine_controller
+
+} {} {}}

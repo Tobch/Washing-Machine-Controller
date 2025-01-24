@@ -1,0 +1,208 @@
+var g_data = {
+b3:[{dummy:0},
+{anchor:'cvg52',items:[{z:'        if (reset) begin',f:'washing_machine_controller.v',l:'38',c:'Y',p:'50.00'}
+,{cr:'c',t:'I',z:'        if (reset) begin',f:'washing_machine_controller.v',l:'38',h:'2',c:'g'}
+,{cr:'m',t:'E',z:'        end else begin',f:'washing_machine_controller.v',l:'41',h:'0',c:'r'}
+]},
+{anchor:'cvg53',items:[{z:'            if (timer > 0) timer <= timer - 1;',f:'washing_machine_controller.v',l:'44',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'            if (timer > 0) timer <= timer - 1;',f:'washing_machine_controller.v',l:'44',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'            if (timer > 0) timer <= timer - 1;',f:'washing_machine_controller.v',l:'44',h:'0',c:'r'}
+]},
+{anchor:'cvg54',items:[{z:'        case (current_state)',f:'washing_machine_controller.v',l:'60',c:'R',p:'22.22'}
+,{cr:'c',t:'T',z:'            POWER_OFF: begin',f:'washing_machine_controller.v',l:'61',h:'3',c:'g'}
+,{cr:'m',t:'T',z:'            IDLE: begin',f:'washing_machine_controller.v',l:'68',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            FILLING: begin',f:'washing_machine_controller.v',l:'86',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            WASHING: begin',f:'washing_machine_controller.v',l:'93',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            RINSING: begin',f:'washing_machine_controller.v',l:'104',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            SPINNING: begin',f:'washing_machine_controller.v',l:'109',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            END_CYCLE: begin',f:'washing_machine_controller.v',l:'119',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            ERROR: begin',f:'washing_machine_controller.v',l:'125',h:'0',c:'r'}
+,{cr:'c',t:'T',z:'            default: next_state = POWER_OFF; // Default case to handle un...',f:'washing_machine_controller.v',l:'130',h:'1',c:'g'}
+]},
+{anchor:'cvg55',items:[{z:'                if (power_button) begin',f:'washing_machine_controller.v',l:'63',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'                if (power_button) begin',f:'washing_machine_controller.v',l:'63',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'                if (power_button) begin',f:'washing_machine_controller.v',l:'63',h:'3',c:'g'}
+]},
+{anchor:'cvg56',items:[{z:'                if (start_button) begin',f:'washing_machine_controller.v',l:'70',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (start_button) begin',f:'washing_machine_controller.v',l:'70',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (start_button) begin',f:'washing_machine_controller.v',l:'70',h:'0',c:'r'}
+]},
+{anchor:'cvg57',items:[{z:'                    if (lid_closed && load_balanced) begin',f:'washing_machine_controller.v',l:'71',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                    if (lid_closed && load_balanced) begin',f:'washing_machine_controller.v',l:'71',h:'0',c:'r'}
+,{cr:'m',t:'E',z:'                    end else begin',f:'washing_machine_controller.v',l:'79',h:'0',c:'r'}
+]},
+{anchor:'cvg58',items:[{z:'                        if (delay_start) begin',f:'washing_machine_controller.v',l:'73',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                        if (delay_start) begin',f:'washing_machine_controller.v',l:'73',h:'0',c:'r'}
+,{cr:'m',t:'E',z:'                        end else begin',f:'washing_machine_controller.v',l:'76',h:'0',c:'r'}
+]},
+{anchor:'cvg59',items:[{z:'                if (water_full) begin',f:'washing_machine_controller.v',l:'88',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (water_full) begin',f:'washing_machine_controller.v',l:'88',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (water_full) begin',f:'washing_machine_controller.v',l:'88',h:'0',c:'r'}
+]},
+{anchor:'cvg60',items:[{z:'                case (cycle_select)',f:'washing_machine_controller.v',l:'95',c:'R',p:'0.00'}
+,{cr:'m',t:'T',z:'                    2\'b00: timer = 8\'d5; // Quick wash',f:'washing_machine_controller.v',l:'96',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b01: timer = 8\'d10; // Normal',f:'washing_machine_controller.v',l:'97',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b10: timer = 8\'d15; // Heavy',f:'washing_machine_controller.v',l:'98',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b11: timer = 8\'d8; // Delicate',f:'washing_machine_controller.v',l:'99',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                case (cycle_select)',f:'washing_machine_controller.v',l:'95',h:'0',c:'r'}
+]},
+{anchor:'cvg61',items:[{z:'                if (timer == 0) next_state = RINSING; // Move to rinsing ...',f:'washing_machine_controller.v',l:'101',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (timer == 0) next_state = RINSING; // Move to rinsing ...',f:'washing_machine_controller.v',l:'101',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (timer == 0) next_state = RINSING; // Move to rinsing ...',f:'washing_machine_controller.v',l:'101',h:'0',c:'r'}
+]},
+{anchor:'cvg62',items:[{z:'                case (spin_speed_select)',f:'washing_machine_controller.v',l:'111',c:'R',p:'0.00'}
+,{cr:'m',t:'T',z:'                    2\'b00: timer = 8\'d3; // Low',f:'washing_machine_controller.v',l:'112',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b01: timer = 8\'d5; // Medium',f:'washing_machine_controller.v',l:'113',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b10: timer = 8\'d7; // High',f:'washing_machine_controller.v',l:'114',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                case (spin_speed_select)',f:'washing_machine_controller.v',l:'111',h:'0',c:'r'}
+]},
+{anchor:'cvg63',items:[{z:'                if (timer == 0) next_state = END_CYCLE; // Move to end cy...',f:'washing_machine_controller.v',l:'116',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (timer == 0) next_state = END_CYCLE; // Move to end cy...',f:'washing_machine_controller.v',l:'116',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (timer == 0) next_state = END_CYCLE; // Move to end cy...',f:'washing_machine_controller.v',l:'116',h:'0',c:'r'}
+]}],
+b51:[{dummy:0},
+{anchor:'cvg52',items:[{z:'        if (reset) begin',f:'washing_machine_controller.v',l:'38',c:'Y',p:'50.00'}
+,{cr:'c',t:'I',z:'        if (reset) begin',f:'washing_machine_controller.v',l:'38',h:'2',c:'g'}
+,{cr:'m',t:'E',z:'        end else begin',f:'washing_machine_controller.v',l:'41',h:'0',c:'r'}
+]},
+{anchor:'cvg53',items:[{z:'            if (timer > 0) timer <= timer - 1;',f:'washing_machine_controller.v',l:'44',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'            if (timer > 0) timer <= timer - 1;',f:'washing_machine_controller.v',l:'44',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'            if (timer > 0) timer <= timer - 1;',f:'washing_machine_controller.v',l:'44',h:'0',c:'r'}
+]},
+{anchor:'cvg54',items:[{z:'        case (current_state)',f:'washing_machine_controller.v',l:'60',c:'R',p:'22.22'}
+,{cr:'c',t:'T',z:'            POWER_OFF: begin',f:'washing_machine_controller.v',l:'61',h:'3',c:'g'}
+,{cr:'m',t:'T',z:'            IDLE: begin',f:'washing_machine_controller.v',l:'68',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            FILLING: begin',f:'washing_machine_controller.v',l:'86',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            WASHING: begin',f:'washing_machine_controller.v',l:'93',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            RINSING: begin',f:'washing_machine_controller.v',l:'104',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            SPINNING: begin',f:'washing_machine_controller.v',l:'109',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            END_CYCLE: begin',f:'washing_machine_controller.v',l:'119',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'            ERROR: begin',f:'washing_machine_controller.v',l:'125',h:'0',c:'r'}
+,{cr:'c',t:'T',z:'            default: next_state = POWER_OFF; // Default case to handle un...',f:'washing_machine_controller.v',l:'130',h:'1',c:'g'}
+]},
+{anchor:'cvg55',items:[{z:'                if (power_button) begin',f:'washing_machine_controller.v',l:'63',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'                if (power_button) begin',f:'washing_machine_controller.v',l:'63',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'                if (power_button) begin',f:'washing_machine_controller.v',l:'63',h:'3',c:'g'}
+]},
+{anchor:'cvg56',items:[{z:'                if (start_button) begin',f:'washing_machine_controller.v',l:'70',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (start_button) begin',f:'washing_machine_controller.v',l:'70',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (start_button) begin',f:'washing_machine_controller.v',l:'70',h:'0',c:'r'}
+]},
+{anchor:'cvg57',items:[{z:'                    if (lid_closed && load_balanced) begin',f:'washing_machine_controller.v',l:'71',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                    if (lid_closed && load_balanced) begin',f:'washing_machine_controller.v',l:'71',h:'0',c:'r'}
+,{cr:'m',t:'E',z:'                    end else begin',f:'washing_machine_controller.v',l:'79',h:'0',c:'r'}
+]},
+{anchor:'cvg58',items:[{z:'                        if (delay_start) begin',f:'washing_machine_controller.v',l:'73',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                        if (delay_start) begin',f:'washing_machine_controller.v',l:'73',h:'0',c:'r'}
+,{cr:'m',t:'E',z:'                        end else begin',f:'washing_machine_controller.v',l:'76',h:'0',c:'r'}
+]},
+{anchor:'cvg59',items:[{z:'                if (water_full) begin',f:'washing_machine_controller.v',l:'88',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (water_full) begin',f:'washing_machine_controller.v',l:'88',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (water_full) begin',f:'washing_machine_controller.v',l:'88',h:'0',c:'r'}
+]},
+{anchor:'cvg60',items:[{z:'                case (cycle_select)',f:'washing_machine_controller.v',l:'95',c:'R',p:'0.00'}
+,{cr:'m',t:'T',z:'                    2\'b00: timer = 8\'d5; // Quick wash',f:'washing_machine_controller.v',l:'96',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b01: timer = 8\'d10; // Normal',f:'washing_machine_controller.v',l:'97',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b10: timer = 8\'d15; // Heavy',f:'washing_machine_controller.v',l:'98',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b11: timer = 8\'d8; // Delicate',f:'washing_machine_controller.v',l:'99',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                case (cycle_select)',f:'washing_machine_controller.v',l:'95',h:'0',c:'r'}
+]},
+{anchor:'cvg61',items:[{z:'                if (timer == 0) next_state = RINSING; // Move to rinsing ...',f:'washing_machine_controller.v',l:'101',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (timer == 0) next_state = RINSING; // Move to rinsing ...',f:'washing_machine_controller.v',l:'101',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (timer == 0) next_state = RINSING; // Move to rinsing ...',f:'washing_machine_controller.v',l:'101',h:'0',c:'r'}
+]},
+{anchor:'cvg62',items:[{z:'                case (spin_speed_select)',f:'washing_machine_controller.v',l:'111',c:'R',p:'0.00'}
+,{cr:'m',t:'T',z:'                    2\'b00: timer = 8\'d3; // Low',f:'washing_machine_controller.v',l:'112',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b01: timer = 8\'d5; // Medium',f:'washing_machine_controller.v',l:'113',h:'0',c:'r'}
+,{cr:'m',t:'T',z:'                    2\'b10: timer = 8\'d7; // High',f:'washing_machine_controller.v',l:'114',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                case (spin_speed_select)',f:'washing_machine_controller.v',l:'111',h:'0',c:'r'}
+]},
+{anchor:'cvg63',items:[{z:'                if (timer == 0) next_state = END_CYCLE; // Move to end cy...',f:'washing_machine_controller.v',l:'116',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (timer == 0) next_state = END_CYCLE; // Move to end cy...',f:'washing_machine_controller.v',l:'116',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (timer == 0) next_state = END_CYCLE; // Move to end cy...',f:'washing_machine_controller.v',l:'116',h:'0',c:'r'}
+]}],
+b2:[{dummy:0},
+{anchor:'cvg5',items:[{z:'        if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'110',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'        if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'110',h:'0',c:'r'}
+,{cr:'m',t:'E',z:'        end else begin',f:'washing_machine_tb.v',l:'112',h:'0',c:'r'}
+]},
+{anchor:'cvg6',items:[{z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'141',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'141',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'141',h:'2',c:'g'}
+]},
+{anchor:'cvg7',items:[{z:'                if (motor_on !== 1) begin',f:'washing_machine_tb.v',l:'142',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (motor_on !== 1) begin',f:'washing_machine_tb.v',l:'142',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (motor_on !== 1) begin',f:'washing_machine_tb.v',l:'142',h:'0',c:'r'}
+]},
+{anchor:'cvg8',items:[{z:'            if (dut.current_state == dut.FILLING) begin',f:'washing_machine_tb.v',l:'148',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'            if (dut.current_state == dut.FILLING) begin',f:'washing_machine_tb.v',l:'148',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'            if (dut.current_state == dut.FILLING) begin',f:'washing_machine_tb.v',l:'148',h:'2',c:'g'}
+]},
+{anchor:'cvg9',items:[{z:'                if (water_pump_on !== 1) begin',f:'washing_machine_tb.v',l:'149',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (water_pump_on !== 1) begin',f:'washing_machine_tb.v',l:'149',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (water_pump_on !== 1) begin',f:'washing_machine_tb.v',l:'149',h:'0',c:'r'}
+]},
+{anchor:'cvg10',items:[{z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'155',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'155',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'155',h:'2',c:'g'}
+]},
+{anchor:'cvg11',items:[{z:'                if (door_locked !== 1) begin',f:'washing_machine_tb.v',l:'156',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (door_locked !== 1) begin',f:'washing_machine_tb.v',l:'156',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (door_locked !== 1) begin',f:'washing_machine_tb.v',l:'156',h:'0',c:'r'}
+]},
+{anchor:'cvg12',items:[{z:'            if (alarm !== 1) begin',f:'washing_machine_tb.v',l:'163',c:'Y',p:'50.00'}
+,{cr:'c',t:'I',z:'            if (alarm !== 1) begin',f:'washing_machine_tb.v',l:'163',h:'2',c:'g'}
+,{cr:'m',t:'A',z:'            if (alarm !== 1) begin',f:'washing_machine_tb.v',l:'163',h:'0',c:'r'}
+]},
+{anchor:'cvg13',items:[{z:'            if (dut.current_state == dut.END_CYCLE) begin',f:'washing_machine_tb.v',l:'169',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'            if (dut.current_state == dut.END_CYCLE) begin',f:'washing_machine_tb.v',l:'169',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'            if (dut.current_state == dut.END_CYCLE) begin',f:'washing_machine_tb.v',l:'169',h:'1',c:'g'}
+]},
+{anchor:'cvg14',items:[{z:'                if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'170',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'170',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'170',h:'0',c:'r'}
+]}],
+b4:[{dummy:0},
+{anchor:'cvg5',items:[{z:'        if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'110',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'        if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'110',h:'0',c:'r'}
+,{cr:'m',t:'E',z:'        end else begin',f:'washing_machine_tb.v',l:'112',h:'0',c:'r'}
+]},
+{anchor:'cvg6',items:[{z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'141',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'141',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'141',h:'2',c:'g'}
+]},
+{anchor:'cvg7',items:[{z:'                if (motor_on !== 1) begin',f:'washing_machine_tb.v',l:'142',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (motor_on !== 1) begin',f:'washing_machine_tb.v',l:'142',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (motor_on !== 1) begin',f:'washing_machine_tb.v',l:'142',h:'0',c:'r'}
+]},
+{anchor:'cvg8',items:[{z:'            if (dut.current_state == dut.FILLING) begin',f:'washing_machine_tb.v',l:'148',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'            if (dut.current_state == dut.FILLING) begin',f:'washing_machine_tb.v',l:'148',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'            if (dut.current_state == dut.FILLING) begin',f:'washing_machine_tb.v',l:'148',h:'2',c:'g'}
+]},
+{anchor:'cvg9',items:[{z:'                if (water_pump_on !== 1) begin',f:'washing_machine_tb.v',l:'149',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (water_pump_on !== 1) begin',f:'washing_machine_tb.v',l:'149',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (water_pump_on !== 1) begin',f:'washing_machine_tb.v',l:'149',h:'0',c:'r'}
+]},
+{anchor:'cvg10',items:[{z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'155',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'155',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'            if (dut.current_state == dut.WASHING) begin',f:'washing_machine_tb.v',l:'155',h:'2',c:'g'}
+]},
+{anchor:'cvg11',items:[{z:'                if (door_locked !== 1) begin',f:'washing_machine_tb.v',l:'156',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (door_locked !== 1) begin',f:'washing_machine_tb.v',l:'156',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (door_locked !== 1) begin',f:'washing_machine_tb.v',l:'156',h:'0',c:'r'}
+]},
+{anchor:'cvg12',items:[{z:'            if (alarm !== 1) begin',f:'washing_machine_tb.v',l:'163',c:'Y',p:'50.00'}
+,{cr:'c',t:'I',z:'            if (alarm !== 1) begin',f:'washing_machine_tb.v',l:'163',h:'2',c:'g'}
+,{cr:'m',t:'A',z:'            if (alarm !== 1) begin',f:'washing_machine_tb.v',l:'163',h:'0',c:'r'}
+]},
+{anchor:'cvg13',items:[{z:'            if (dut.current_state == dut.END_CYCLE) begin',f:'washing_machine_tb.v',l:'169',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'            if (dut.current_state == dut.END_CYCLE) begin',f:'washing_machine_tb.v',l:'169',h:'0',c:'r'}
+,{cr:'c',t:'A',z:'            if (dut.current_state == dut.END_CYCLE) begin',f:'washing_machine_tb.v',l:'169',h:'1',c:'g'}
+]},
+{anchor:'cvg14',items:[{z:'                if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'170',c:'R',p:'0.00'}
+,{cr:'m',t:'I',z:'                if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'170',h:'0',c:'r'}
+,{cr:'m',t:'A',z:'                if (end_of_cycle_alarm !== 1) begin',f:'washing_machine_tb.v',l:'170',h:'0',c:'r'}
+]}],
+dummyEnd:0
+};
+processBranchesData(g_data);

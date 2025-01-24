@@ -1,0 +1,66 @@
+var g_data = {
+f3:{
+scopes:[{link:'z.htm?f=0&s=3',val:'work.washing_machine_controller'}]
+,FSMs:[{dummy:0}
+,{anchor:'cvg66',items:[{c:'R',p:'6.25',z:'current_state'}
+,{cr:'c',s:'1',z:'POWER_OFF',h:'2',c:'g'}
+,{cr:'m',z:'POWER_OFF -> IDLE',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'IDLE',h:'0',c:'r'}
+,{cr:'m',z:'IDLE -> ERROR',h:'0',c:'r'}
+,{cr:'m',z:'IDLE -> FILLING',h:'0',c:'r'}
+,{cr:'m',z:'IDLE -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'ERROR',h:'0',c:'r'}
+,{cr:'m',z:'ERROR -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'FILLING',h:'0',c:'r'}
+,{cr:'m',z:'FILLING -> WASHING',h:'0',c:'r'}
+,{cr:'m',z:'FILLING -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'WASHING',h:'0',c:'r'}
+,{cr:'m',z:'WASHING -> RINSING',h:'0',c:'r'}
+,{cr:'m',z:'WASHING -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'RINSING',h:'0',c:'r'}
+,{cr:'m',z:'RINSING -> SPINNING',h:'0',c:'r'}
+,{cr:'m',z:'RINSING -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'SPINNING',h:'0',c:'r'}
+,{cr:'m',z:'SPINNING -> END_CYCLE',h:'0',c:'r'}
+,{cr:'m',z:'SPINNING -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'END_CYCLE',h:'0',c:'r'}
+,{cr:'m',z:'END_CYCLE -> IDLE',h:'0',c:'r'}
+,{cr:'m',z:'END_CYCLE -> POWER_OFF',h:'0',c:'r'}
+]}
+
+],
+},
+f51:{
+scopes:[{s:'4',b:'0',val:'tb_washing_machine_controller'},{link:'z.htm?f=0&s=51',val:'dut'}]
+,FSMs:[{dummy:0}
+,{anchor:'cvg66',items:[{c:'R',p:'6.25',z:'current_state'}
+,{cr:'c',s:'1',z:'POWER_OFF',h:'2',c:'g'}
+,{cr:'m',z:'POWER_OFF -> IDLE',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'IDLE',h:'0',c:'r'}
+,{cr:'m',z:'IDLE -> ERROR',h:'0',c:'r'}
+,{cr:'m',z:'IDLE -> FILLING',h:'0',c:'r'}
+,{cr:'m',z:'IDLE -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'ERROR',h:'0',c:'r'}
+,{cr:'m',z:'ERROR -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'FILLING',h:'0',c:'r'}
+,{cr:'m',z:'FILLING -> WASHING',h:'0',c:'r'}
+,{cr:'m',z:'FILLING -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'WASHING',h:'0',c:'r'}
+,{cr:'m',z:'WASHING -> RINSING',h:'0',c:'r'}
+,{cr:'m',z:'WASHING -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'RINSING',h:'0',c:'r'}
+,{cr:'m',z:'RINSING -> SPINNING',h:'0',c:'r'}
+,{cr:'m',z:'RINSING -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'SPINNING',h:'0',c:'r'}
+,{cr:'m',z:'SPINNING -> END_CYCLE',h:'0',c:'r'}
+,{cr:'m',z:'SPINNING -> POWER_OFF',h:'0',c:'r'}
+,{cr:'m',s:'1',z:'END_CYCLE',h:'0',c:'r'}
+,{cr:'m',z:'END_CYCLE -> IDLE',h:'0',c:'r'}
+,{cr:'m',z:'END_CYCLE -> POWER_OFF',h:'0',c:'r'}
+]}
+
+],
+},
+dummyEnd:0
+};
+processFsmData(g_data);
